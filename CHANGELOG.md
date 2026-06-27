@@ -12,6 +12,14 @@ follows:
    releases, and Linux kernel updates. They're also made to fix bugs and add
    features to the build infrastructure.
 
+## v2.0.4-recomputer-r11xx-kiosk-v1
+
+Kiosk variant of nerves_system_recomputer_r11xx: added Weston + COG + WPEWebKit
+(fullscreen Wayland web browser) and Liberation fonts. Default browser URL is
+`http://localhost:4000/`. IEx console moved to UART (ttyS0) so HDMI is reserved
+for the browser. Enabled multitouch (CONFIG_HID_MULTITOUCH). All reComputer R11xx
+hardware support retained.
+
 ## v2.0.4-recomputer-r11xx-v1
 
 Rebased onto nerves_system_rpi4 v2.0.4 (Erlang/OTP 28, Linux 6.12, Buildroot

@@ -1,9 +1,14 @@
-# Nerves System for reComputer R11xx (64-bit)
+# Kiosk Nerves System for reComputer R11xx (64-bit)
 
-[![CircleCI](https://circleci.com/gh/nerves-project/nerves_system_rpi4.svg?style=svg)](https://circleci.com/gh/nerves-project/nerves_system_rpi4)
-[![Hex version](https://img.shields.io/hexpm/v/nerves_system_rpi4.svg "Hex version")](https://hex.pm/packages/nerves_system_rpi4)
+This is a specialised version of
+[nerves_system_recomputer_r11xx](https://github.com/alde103/nerves_system_recomputer_r11xx)
+that includes the packages required to run a fullscreen web browser in kiosk
+mode (Weston + COG + WPEWebKit), modelled after
+[kiosk_system_rpi4](https://github.com/nerves-web-kiosk/kiosk_system_rpi4).
 
-This is the base Nerves System configuration for the reComputer R11xx, a versatile edge IoT gateway with AI capabilities powered by the Raspberry Pi CM4.
+It targets the reComputer R11xx, a versatile edge IoT gateway with AI
+capabilities powered by the Raspberry Pi CM4, and keeps all of its industrial
+hardware support (isolated GPIO/DIO, RS485/RS232, RTC, etc.).
 
 ![Raspberry Pi 4 image](assets/images/recomputer-r11xx.jpg)
 <br><sup>[Seeed Studio / reComputer R11xx base ](https://www.seeedstudio.com/reComputer-R1113-10-p-6258.html)</sup>
@@ -16,7 +21,7 @@ This is the base Nerves System configuration for the reComputer R11xx, a versati
 | Memory               | Up to 8GB RAM                   |
 | Storage             | Up to 32GB eMMC, MicroSD card slot, M.2 NVMe SSD slot (2280-M Key) |
 | Linux kernel        | 6.12 w/ Raspberry Pi patches    |
-| IEx terminal        | HDMI and USB keyboard (can be disable) |
+| IEx terminal        | UART (`ttyS0`) — HDMI is reserved for the kiosk browser |
 | Ethernet            | 1x 10/100/1000Mbps (supports PoE*), 1x 10/100Mbps |
 | Serial              | 2x RS485 (isolated), 2x RS232 (isolated) |
 | Digital I/O         | 2x isolated DI ports (5~24V DC), 2x isolated DO ports (<60V DC) |
@@ -53,7 +58,7 @@ To use this Nerves System in your project, you need to add it as a dependency in
 ```elixir
 def deps do
   [
-    {:nerves_system_recomputer_r11xx, github: "alde/nerves_system_recomputer_r11xx", runtime: false, targets: :recomputer_r11xx}
+    {:kiosk_system_recomputer_r11xx, github: "alde103/kiosk_system_recomputer_r11xx", runtime: false, targets: :recomputer_r11xx}
   ]
 end
 ```
@@ -65,6 +70,30 @@ for more information.
 If you need custom modifications to this system for your device, clone this
 repository and update as described in [Making custom
 systems](https://hexdocs.pm/nerves/customizing-systems.html).
+
+## Kiosk mode
+
+On top of the base reComputer R11xx system, this variant adds the packages
+needed to display a fullscreen web page on the HDMI output:
+
+- **Weston** — the Wayland compositor.
+- **COG** — a small single-window WPE WebKit launcher (the kiosk browser).
+- **WPEWebKit** (with multimedia) — the web engine.
+- **Liberation fonts** and **libsoup3** with SSL for HTTPS pages.
+- **GPU/DRM** (vc4-kms-v3d) and **multitouch** (`CONFIG_HID_MULTITOUCH`) support.
+
+The IEx console is moved off HDMI to the UART (`ttyS0`) so the display is free
+for the browser; reach IEx over the serial console or SSH.
+
+The default page COG opens is `http://localhost:4000/` (a Phoenix app running on
+the device). To change it, edit `BR2_PACKAGE_COG_PROGRAMS_HOME_URI` in
+`nerves_defconfig` and rebuild the system.
+
+This Nerves system only ships the browser binaries. **Launching** Weston and COG
+is the job of your Elixir application (start them with `MuonTrap`/`System.cmd`
+once the network/Phoenix endpoint is up), the same way
+[kiosk_example](https://github.com/nerves-web-kiosk/kiosk_example) does for
+`kiosk_system_rpi4`.
 
 ## Upgrading to 2.0
 

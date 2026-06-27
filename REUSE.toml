@@ -76,11 +76,12 @@ precedence = "aggregate"
 SPDX-FileCopyrightText = "None"
 SPDX-License-Identifier = "CC0-1.0"
 
-# https://en.wikipedia.org/wiki/File:Raspberry_Pi_4_Model_B_-_Top.jpg
+# reComputer R11xx product image
+# https://www.seeedstudio.com/reComputer-R1113-10-p-6258.html
 [[annotations]]
 path = [
- "assets/images/raspberry-pi-4-model-b.jpg"
+ "assets/images/recomputer-r11xx.jpg"
 ]
 precedence = "aggregate"
-SPDX-FileCopyrightText = "Michael Henzler"
-SPDX-License-Identifier = "CC-BY-SA-4.0"
+SPDX-FileCopyrightText = "Seeed Studio"
+SPDX-License-Identifier = "CC-BY-4.0"
