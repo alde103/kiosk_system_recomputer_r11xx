@@ -21,3 +21,6 @@ erl_crash.dump
 /archive.log
 /.nerves
 /fwup.conf
+
+# Prebuilt Nerves system artifact (published to GitHub releases, not committed)
+/*-portable-*.tar.gz
