@@ -14,6 +14,10 @@ BR2_TOOLCHAIN_EXTERNAL_FORTRAN=y
 BR2_TOOLCHAIN_EXTERNAL_OPENMP=y
 BR2_TAR_OPTIONS="--no-same-owner"
 BR2_BACKUP_SITE="https://dl.nerves-project.org"
+# Cap parallel jobs: WebKit/WPEWebKit unified-source compiles use ~2-3 GB each,
+# so the default (nproc+1) OOM-kills cc1plus on machines with modest RAM.
+# Matches kiosk_system_rpi4. Raise this on builders with lots of RAM.
+BR2_JLEVEL=4
 BR2_ENABLE_DEBUG=y
 BR2_GLOBAL_PATCH_DIR="${BR2_EXTERNAL_NERVES_PATH}/patches ${NERVES_DEFCONFIG_DIR}/patches"
 BR2_REPRODUCIBLE=y
