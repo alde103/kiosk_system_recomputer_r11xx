@@ -18,7 +18,11 @@ BR2_BACKUP_SITE="https://dl.nerves-project.org"
 # so the default (nproc+1) OOM-kills cc1plus on machines with modest RAM.
 # Matches kiosk_system_rpi4. Raise this on builders with lots of RAM.
 BR2_JLEVEL=4
-BR2_ENABLE_DEBUG=y
+# BR2_ENABLE_DEBUG intentionally NOT set. With -g2, WPEWebKit's combined
+# .debug_info overflows 32-bit AArch64 relocations (R_AARCH64_ABS32) and fails
+# to link ("relocation truncated to fit"). Matches kiosk_system_rpi4; also keeps
+# the firmware smaller. Re-enable only with a debug-capable link (e.g. -gz) if needed.
+# BR2_ENABLE_DEBUG is not set
 BR2_GLOBAL_PATCH_DIR="${BR2_EXTERNAL_NERVES_PATH}/patches ${NERVES_DEFCONFIG_DIR}/patches"
 BR2_REPRODUCIBLE=y
 BR2_ROOTFS_SKELETON_CUSTOM=y
