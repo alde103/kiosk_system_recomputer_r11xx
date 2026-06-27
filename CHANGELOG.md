@@ -20,6 +20,13 @@ Kiosk variant of nerves_system_recomputer_r11xx: added Weston + COG + WPEWebKit
 for the browser. Enabled multitouch (CONFIG_HID_MULTITOUCH). All reComputer R11xx
 hardware support retained.
 
+Build fixes for the browser stack on nerves_system_br 1.33.9 (Buildroot 2025.11.x /
+Mesa 25.2):
+- Dropped rpi_userland (legacy VideoCore) so gst1-plugins-base no longer pulls the
+  dispmanx GL winsys, which fails against the mesa/Wayland GL stack.
+- Added a gst1-plugins-base patch defining the EGL_PLATFORM_SURFACELESS_MESA fallback
+  that Mesa 25.2's stripped EGL headers no longer provide (see patches/).
+
 ## v2.0.4-recomputer-r11xx-v1
 
 Rebased onto nerves_system_rpi4 v2.0.4 (Erlang/OTP 28, Linux 6.12, Buildroot
