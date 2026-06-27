@@ -50,7 +50,10 @@ BR2_PACKAGE_RPI_FIRMWARE=y
 BR2_PACKAGE_RPI_FIRMWARE_CUSTOM_VERSION="1.20250915"
 BR2_PACKAGE_RPI_FIRMWARE_VARIANT_PI4_X=y
 BR2_PACKAGE_PIGPIO=y
-BR2_PACKAGE_RPI_USERLAND=y
+# NOTE: rpi_userland (legacy VideoCore IV userland: bcm_host/brcmEGL/brcmGLES,
+# vcgencmd, dispmanx) is intentionally NOT enabled. When present, gst1-plugins-base
+# auto-selects the dispmanx GL winsys, which fails to build against the mesa/Wayland
+# GL stack used by the kiosk browser. Kiosks render via vc4-kms-v3d (mesa) + Wayland.
 # BR2_PACKAGE_ALSA_LIB_RAWMIDI is not set
 # BR2_PACKAGE_ALSA_LIB_HWDEP is not set
 # BR2_PACKAGE_ALSA_LIB_SEQ is not set
