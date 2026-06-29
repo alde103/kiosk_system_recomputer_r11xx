@@ -4,7 +4,12 @@ CONFIG_SYSVIPC=y
 CONFIG_POSIX_MQUEUE=y
 CONFIG_NO_HZ=y
 CONFIG_HIGH_RES_TIMERS=y
-CONFIG_PREEMPT_RT=y
+# NOTE: PREEMPT (not PREEMPT_RT). The Raspberry Pi v3d GPU driver is not
+# PREEMPT_RT-safe: under real rendering load (the kiosk browser) v3d_irq takes
+# an rt_spin_lock in atomic context -> "BUG: scheduling while atomic" -> kernel
+# hang -> hardware watchdog reboot loop. kiosk_system_rpi4 uses PREEMPT for the
+# same reason. (The non-kiosk recomputer system can keep PREEMPT_RT.)
+CONFIG_PREEMPT=y
 CONFIG_IKCONFIG=y
 CONFIG_IKCONFIG_PROC=y
 CONFIG_MEMCG=y
