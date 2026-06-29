@@ -26,6 +26,9 @@ Mesa 25.2):
   dispmanx GL winsys, which fails against the mesa/Wayland GL stack.
 - Added a gst1-plugins-base patch defining the EGL_PLATFORM_SURFACELESS_MESA fallback
   that Mesa 25.2's stripped EGL headers no longer provide (see patches/).
+- Kernel built with PREEMPT instead of PREEMPT_RT: the v3d GPU driver is not
+  RT-safe and hits "scheduling while atomic" under browser GPU load, hanging the
+  kernel and triggering a hardware-watchdog reboot loop. Matches kiosk_system_rpi4.
 
 ## v2.0.4-recomputer-r11xx-v1
 
